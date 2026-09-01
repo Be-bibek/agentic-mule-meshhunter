@@ -2,6 +2,7 @@ import json
 import networkx as nx
 from typing import List, Dict, Any, Optional
 import os
+import rust_core
 
 class GraphEngine:
     def __init__(self, accounts_file: str, transactions_file: str):
@@ -11,34 +12,29 @@ class GraphEngine:
         self.load_data()
 
     def load_data(self):
-        print(f"Loading data from {self.accounts_file} and {self.transactions_file}...")
+        print(f"Loading high-performance graph using Rust core...")
+        
+        # We still load accounts via JSON for the basic attributes
         with open(self.accounts_file, 'r') as f:
             accounts = json.load(f)
-        
-        with open(self.transactions_file, 'r') as f:
-            transactions = json.load(f)
-
-        # Add account nodes
         for acc in accounts:
             self.G.add_node(acc['account_id'], type='account', name=acc['name'], created_at=acc['created_at'])
 
-        # Add device nodes and transaction edges
-        for txn in transactions:
-            device = txn['device_info']
-            device_id = device['device_id']
-            
-            # Add device node if not exists
+        # Use Rust to rip through the transaction file instantly
+        edge_list = rust_core.parse_transactions(self.transactions_file)
+        
+        # Add devices
+        for device_id, ip_address, user_agent in edge_list.devices:
             if not self.G.has_node(device_id):
-                self.G.add_node(device_id, type='device', ip_address=device['ip_address'], user_agent=device['user_agent'])
+                self.G.add_node(device_id, type='device', ip_address=ip_address, user_agent=user_agent)
+                
+        # Add transactions (User -> User)
+        for sender_id, receiver_id, txn_id, amount, timestamp, device_id in edge_list.user_to_user:
+            self.G.add_edge(sender_id, receiver_id, key=txn_id, 
+                            amount=amount, timestamp=timestamp, device_id=device_id)
 
-            sender_id = txn['sender_id']
-            receiver_id = txn['receiver_id']
-
-            # Edge from sender to receiver
-            self.G.add_edge(sender_id, receiver_id, key=txn['transaction_id'], 
-                            amount=txn['amount'], timestamp=txn['timestamp'], device_id=device_id)
-
-            # Edges connecting accounts to devices they used
+        # Add User -> Device associations
+        for sender_id, device_id in edge_list.user_to_device:
             if not self.G.has_edge(sender_id, device_id):
                 self.G.add_edge(sender_id, device_id, type='used_device')
 

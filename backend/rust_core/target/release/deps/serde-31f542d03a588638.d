@@ -1,0 +1,14 @@
+D:\payment-tech-AI\AI Finance\backend\rust_core\target\release\deps\serde-31f542d03a588638.d: C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs D:\payment-tech-AI\AI\ Finance\backend\rust_core\target\release\build\serde-4da22ed9f12ae3ef\out/private.rs
+
+D:\payment-tech-AI\AI Finance\backend\rust_core\target\release\deps\libserde-31f542d03a588638.rlib: C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs D:\payment-tech-AI\AI\ Finance\backend\rust_core\target\release\build\serde-4da22ed9f12ae3ef\out/private.rs
+
+D:\payment-tech-AI\AI Finance\backend\rust_core\target\release\deps\libserde-31f542d03a588638.rmeta: C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs D:\payment-tech-AI\AI\ Finance\backend\rust_core\target\release\build\serde-4da22ed9f12ae3ef\out/private.rs
+
+C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\lib.rs:
+C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\integer128.rs:
+C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\mod.rs:
+C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\de.rs:
+C:\Users\Bibek\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\src\private\ser.rs:
+D:\payment-tech-AI\AI\ Finance\backend\rust_core\target\release\build\serde-4da22ed9f12ae3ef\out/private.rs:
+
+# env-dep:OUT_DIR=D:\\payment-tech-AI\\AI Finance\\backend\\rust_core\\target\\release\\build\\serde-4da22ed9f12ae3ef\\out

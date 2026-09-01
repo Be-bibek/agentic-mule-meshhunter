@@ -21,3 +21,6 @@ scikit-learn
 
 # CORS
 python-multipart
+
+# Rust Extension
+maturin
