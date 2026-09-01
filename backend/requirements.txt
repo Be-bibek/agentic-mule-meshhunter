@@ -1,0 +1,23 @@
+# Core
+fastapi
+uvicorn[standard]
+websockets
+pydantic
+
+# Graph Engine
+networkx
+numpy
+pandas
+
+# LLM Agent
+openai
+anthropic
+
+# Data Generation
+faker
+
+# Evaluation
+scikit-learn
+
+# CORS
+python-multipart
