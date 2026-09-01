@@ -41,24 +41,44 @@ manager = ConnectionManager()
 
 # Agent API
 
+from fastapi import BackgroundTasks
 from .agent.investigator import MuleRingInvestigator
 
 class InvestigationRequest(BaseModel):
     node_id: str
 
-@app.post("/api/agent/investigate")
-async def run_investigation(req: InvestigationRequest):
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+
+_thread_pool = ThreadPoolExecutor(max_workers=4)
+
+async def _run_investigation_task(node_id: str):
+    """Background task: runs the CPU-bound agent in a thread pool, broadcasts over WebSocket."""
+    await manager.broadcast({
+        "type": "investigation_started",
+        "target": node_id,
+        "message": f"Agent dispatched to investigate {node_id}"
+    })
     investigator = MuleRingInvestigator()
-    report = investigator.investigate(req.node_id)
-    
-    # Broadcast final verdict
+    loop = asyncio.get_event_loop()
+    # Run the blocking graph traversal + LLM loop in a thread to not block the event loop
+    report = await loop.run_in_executor(_thread_pool, investigator.investigate, node_id)
     await manager.broadcast({
         "type": "investigation_complete",
-        "target": req.node_id,
+        "target": node_id,
         "verdict": report.model_dump()
     })
-    
-    return report
+
+@app.post("/api/agent/investigate", status_code=202)
+async def run_investigation(req: InvestigationRequest, background_tasks: BackgroundTasks):
+    """
+    Fire-and-forget investigation endpoint.
+    Returns 202 Accepted immediately (<10ms); results stream via WebSocket.
+    The CPU-bound agent runs in a thread pool to avoid blocking the event loop.
+    """
+    background_tasks.add_task(_run_investigation_task, req.node_id)
+    return {"status": "accepted", "target": req.node_id, "message": "Investigation dispatched. Subscribe to WebSocket for live results."}
+
 
 # Graph API Endpoints for the Agent
 

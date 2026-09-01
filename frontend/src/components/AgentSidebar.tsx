@@ -25,7 +25,17 @@ export default function AgentSidebar({ logs }: AgentSidebarProps) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
             >
-              {log.type === 'investigation_complete' ? (
+              {log.type === 'investigation_started' ? (
+                <div className="log-entry" style={{ borderColor: 'rgba(59,130,246,0.4)' }}>
+                  <div className="log-header">
+                    <div className="log-icon-container investigate">
+                      <Search size={14} />
+                    </div>
+                    <div className="log-title" style={{ color: 'var(--accent-blue)' }}>Agent Dispatched</div>
+                  </div>
+                  <div className="log-details">{log.message}</div>
+                </div>
+              ) : log.type === 'investigation_complete' ? (
                 <div className={`verdict-box ${log.verdict.verdict.is_mule_ring ? '' : 'clean'}`}>
                   <div className="verdict-header">
                     <div className="verdict-title">

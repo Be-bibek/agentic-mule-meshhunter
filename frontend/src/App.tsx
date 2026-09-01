@@ -135,9 +135,11 @@ function App() {
       const targetId = muleNode?.id ?? graphData.nodes[0]?.id
       if (!targetId) { setInvestigating(false); return }
 
+      // Fire-and-forget: backend returns 202 immediately, results stream via WebSocket
       await axios.post(`${BACKEND}/api/agent/investigate`, { node_id: targetId })
+      // We don't await the result — the WebSocket will deliver it
     } catch (err) {
-      console.error('Investigation failed:', err)
+      console.error('Investigation dispatch failed:', err)
       setInvestigating(false)
     }
   }
