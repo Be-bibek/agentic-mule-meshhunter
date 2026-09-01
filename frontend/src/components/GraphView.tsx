@@ -1,50 +1,66 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
+import type { ForceGraphMethods } from 'react-force-graph-2d';
+
+interface GraphNode {
+  id: string;
+  type: string;
+  name?: string;
+}
+
+interface GraphLink {
+  source: string | GraphNode;
+  target: string | GraphNode;
+  amount?: number;
+}
 
 interface GraphViewProps {
-  data: any;
+  data: { nodes: GraphNode[]; links: GraphLink[] };
   highlightedNodes: Set<string>;
 }
 
 export default function GraphView({ data, highlightedNodes }: GraphViewProps) {
-  const fgRef = useRef<any>();
+  const fgRef = useRef<ForceGraphMethods<GraphNode, GraphLink>>(null!);
 
   useEffect(() => {
     if (fgRef.current && data.nodes.length > 0) {
-      // Add slight delay to let physics settle, then zoom to fit
       setTimeout(() => {
-        fgRef.current.zoomToFit(400, 50);
+        fgRef.current.zoomToFit(600, 60);
       }, 1000);
     }
   }, [data]);
 
+  const getNodeId = useCallback((node: string | GraphNode) =>
+    typeof node === 'string' ? node : node.id, []);
+
   return (
     <div style={{ width: '100%', height: '100%' }}>
-      <ForceGraph2D
+      <ForceGraph2D<GraphNode, GraphLink>
         ref={fgRef}
         graphData={data}
-        nodeColor={(node: any) => {
-          if (highlightedNodes.has(node.id)) return '#EF4444'; // Red for under investigation/verdict
-          if (node.type === 'device') return '#94A3B8'; // Muted grey for devices
-          return '#3B82F6'; // Blue for normal accounts
+        nodeColor={(node) => {
+          if (highlightedNodes.has(node.id)) return '#EF4444';
+          if (node.type === 'device') return '#94A3B8';
+          return '#3B82F6';
         }}
-        nodeVal={(node: any) => {
+        nodeVal={(node) => {
           if (highlightedNodes.has(node.id)) return 15;
           return node.type === 'device' ? 5 : 8;
         }}
-        linkColor={(link: any) => {
-          if (highlightedNodes.has(link.source.id || link.source) && highlightedNodes.has(link.target.id || link.target)) {
-            return 'rgba(239, 68, 68, 0.6)'; // Highlight connections between investigated nodes
+        linkColor={(link) => {
+          const src = getNodeId(link.source);
+          const tgt = getNodeId(link.target);
+          if (highlightedNodes.has(src) && highlightedNodes.has(tgt)) {
+            return 'rgba(239, 68, 68, 0.7)';
           }
           return 'rgba(255, 255, 255, 0.1)';
         }}
-        linkWidth={(link: any) => {
-          if (highlightedNodes.has(link.source.id || link.source) && highlightedNodes.has(link.target.id || link.target)) {
-            return 2;
-          }
-          return 1;
+        linkWidth={(link) => {
+          const src = getNodeId(link.source);
+          const tgt = getNodeId(link.target);
+          return highlightedNodes.has(src) && highlightedNodes.has(tgt) ? 2.5 : 0.8;
         }}
-        linkDirectionalParticles={(link: any) => link.amount ? 2 : 0}
+        linkDirectionalParticles={(link) => (link.amount ? 2 : 0)}
         linkDirectionalParticleSpeed={0.005}
         nodeLabel="id"
         backgroundColor="transparent"

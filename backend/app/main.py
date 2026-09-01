@@ -127,6 +127,23 @@ async def calculate_centrality(req: NodeList):
         raise HTTPException(status_code=400, detail=result["error"])
     return result
 
+# Graph Data Serving Endpoints (for frontend visualization)
+import os as _os, json as _json
+
+@app.get("/api/graph/accounts")
+async def get_accounts_data():
+    """Serve the accounts JSON for the frontend graph visualization."""
+    data_path = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), "data", "accounts.json")
+    with open(data_path, "r") as f:
+        return _json.load(f)
+
+@app.get("/api/graph/transactions")
+async def get_transactions_data():
+    """Serve the transactions JSON for the frontend graph visualization."""
+    data_path = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), "data", "transactions.json")
+    with open(data_path, "r") as f:
+        return _json.load(f)
+
 # WebSocket endpoint for real-time visualization
 @app.websocket("/api/ws/investigation")
 async def websocket_endpoint(websocket: WebSocket):
@@ -137,3 +154,4 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+
