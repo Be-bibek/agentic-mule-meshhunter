@@ -1,0 +1,6 @@
+{
+  "name": "MuleTrace AI",
+  "description": "FinTech security platform detecting and severing fraudulent money mule rings using AI risk agents and graph network intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

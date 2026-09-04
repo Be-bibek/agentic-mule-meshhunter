@@ -1,435 +1,245 @@
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  background: var(--bg-dark);
+/* ==========================================================================
+   MuleTrace AI - Next-Gen Modern FinTech Design System
+   Inspired by clean modern fintech dashboards (violet, neon-lime, soft light gray)
+   ========================================================================== */
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* Top Command Bar */
-.header {
-  height: 64px;
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  justify-content: space-between;
-  z-index: 10;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo-icon {
-  color: var(--text-main);
-}
-
-.title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-main);
-}
-
-.badge {
-  background: rgba(239, 68, 68, 0.1);
-  color: var(--accent-crimson);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.system-stats {
-  display: flex;
-  gap: 20px;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  align-items: center;
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.stat-item.active { color: var(--accent-cyan); }
-
-/* 3-Column Enterprise Frame */
-.main-content {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 260px 1fr 380px;
-  overflow: hidden;
-}
-
-/* Left Panel - Threat Queue */
-.threat-queue {
-  background: var(--bg-panel);
-  border-right: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  z-index: 5;
-}
-.threat-header {
-  padding: 16px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-color);
-  letter-spacing: 0.05em;
-}
-.threat-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.threat-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border-color);
-  padding: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.threat-card:hover, .threat-card.active {
-  background: rgba(255,255,255,0.05);
-  border-color: var(--text-muted);
-}
-.threat-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.threat-meta {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.threat-badge {
-  font-size: 0.65rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(245, 158, 11, 0.1);
-  color: var(--accent-amber);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-/* Center Stage - Canvas */
-.graph-container {
-  position: relative;
-  background: var(--bg-dark);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  /* Radial subtle glow behind graph */
-  background-image: radial-gradient(circle at 50% 50%, rgba(31, 41, 55, 0.5) 0%, transparent 60%);
-}
-
-.mini-legend {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-panel);
-  border: 1px solid var(--border-color);
-  padding: 10px 20px;
-  border-radius: 100px;
-  display: flex;
-  gap: 16px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.l-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-/* Right Panel - Telemetry */
-.sidebar {
-  background: var(--bg-panel);
-  border-left: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  z-index: 5;
-}
-.sidebar-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--border-color);
-}
-.sidebar-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.sidebar-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Log Entries */
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.log-entry {
-  background: var(--bg-dark);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 12px;
-  animation: slideIn 0.3s ease-out forwards;
-  position: relative;
-  overflow: hidden;
-}
-.log-entry::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; width: 3px; height: 100%;
-  background: var(--border-color);
-}
-.log-entry.started::before { background: var(--accent-cyan); }
-.log-entry.action::before { background: var(--accent-indigo); }
-
-.log-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.log-icon-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.05);
-}
-.log-icon-container.investigate { color: var(--accent-cyan); }
-.log-icon-container.tool { color: var(--accent-indigo); }
-
-.log-title {
-  font-weight: 600;
-  font-size: 0.85rem;
-  font-family: var(--font-mono);
-}
-.log-details {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  background: rgba(0,0,0,0.3);
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.02);
-  word-break: break-all;
-}
-
-/* Verdict Box */
-.verdict-box {
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid var(--accent-crimson);
-  border-radius: 6px;
-  padding: 16px;
-  margin-top: 8px;
-  animation: slideIn 0.4s ease forwards;
-  position: relative;
-  overflow: hidden;
-}
-.verdict-box.clean {
-  background: rgba(16, 185, 129, 0.05);
-  border: 1px solid var(--accent-emerald);
-}
-.verdict-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-.verdict-title {
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-}
-.verdict-score {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  background: rgba(0,0,0,0.5);
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.evidence-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
-}
-.evidence-item {
-  display: flex;
-  gap: 8px;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  background: rgba(0,0,0,0.3);
-  padding: 8px;
-  border-radius: 4px;
-  border-left: 3px solid var(--accent-crimson);
-}
-
-/* Run Button */
-.btn {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.8rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-.btn.primary {
-  background: rgba(14, 165, 233, 0.1);
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
-  box-shadow: 0 0 10px var(--accent-cyan-glow);
-}
-.btn.primary:hover:not(:disabled) {
-  background: var(--accent-cyan);
-  color: var(--bg-dark);
-}
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.spinner {
-  animation: spin 1s linear infinite;
-}
-
-/* Bloomberg Ticker & Toggle */
-.bloomberg-ticker {
-  display: flex;
-  background: var(--bg-dark);
-  border: 1px solid var(--border-color);
-  padding: 6px 12px;
-  border-radius: 4px;
-  gap: 16px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-main);
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-  align-items: center;
-}
-.ticker-item {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-.ticker-label {
-  color: var(--text-muted);
-}
-.ticker-value {
-  color: var(--accent-cyan);
-  font-weight: 700;
-}
-.ticker-value.danger {
-  color: var(--accent-crimson);
-}
-
-.view-toggle {
-  display: flex;
-  background: var(--bg-dark);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  overflow: hidden;
-  margin-right: 16px;
-}
-.toggle-btn {
+::-webkit-scrollbar-track {
   background: transparent;
-  border: none;
-  color: var(--text-muted);
-  padding: 6px 16px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-}
-.toggle-btn.active {
-  background: rgba(14, 165, 233, 0.15);
-  color: var(--accent-cyan);
-}
-.toggle-btn:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
 }
 
-/* India Heatmap Animations */
-@keyframes dashPulse {
-  to { stroke-dashoffset: -20; }
-}
-.pulse-path {
-  stroke-dasharray: 4, 6;
-  animation: dashPulse 1s linear infinite;
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
 }
 
-@keyframes hubGlow {
-  0% { transform: scale(1); opacity: 1; fill: var(--accent-amber); }
-  50% { transform: scale(1.5); opacity: 0.8; fill: var(--accent-crimson); }
-  100% { transform: scale(1); opacity: 1; fill: var(--accent-amber); }
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
-.hub-pulse {
-  transform-origin: center;
-  animation: hubGlow 1.5s ease-in-out infinite;
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Diagonal Striped Background Patterns (as featured in the reference UI) */
+.stripe-diagonal-lime {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.4) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.dark .stripe-diagonal-lime {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(163, 230, 53, 0.25),
+    rgba(163, 230, 53, 0.25) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.stripe-diagonal-muted {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(148, 163, 184, 0.18),
+    rgba(148, 163, 184, 0.18) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.dark .stripe-diagonal-muted {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.08) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.stripe-diagonal-purple {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.dark .stripe-diagonal-purple {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(168, 85, 247, 0.25),
+    rgba(168, 85, 247, 0.25) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+/* Card aesthetics */
+.bento-card {
+  background-color: #ffffff;
+  border-radius: 1.5rem; /* 24px */
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.03), 0 4px 10px -2px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .bento-card {
+  background-color: #17171d;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.5), 0 4px 10px -2px rgba(0, 0, 0, 0.3);
+}
+
+.bento-card:hover {
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.05), 0 6px 14px -2px rgba(0, 0, 0, 0.03);
+}
+
+.dark .bento-card:hover {
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.7), 0 6px 14px -2px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Liquid Wave Animation for Circle Gauge (Saved $14,300 in reference) */
+@keyframes wave-move {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.85);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+.wave-animation {
+  animation: wave-move 6s linear infinite;
+}
+
+/* Pulse animation for live monitoring beacon */
+@keyframes beacon-pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(163, 230, 53, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(163, 230, 53, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(163, 230, 53, 0);
+  }
+}
+
+.beacon-pulse {
+  animation: beacon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scanning radar sweep for center canvas */
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(1000%);
+    opacity: 0;
+  }
+}
+
+.scan-radar-line {
+  animation: scan-line 3s ease-in-out infinite;
+}
+
+/* Grid pattern background for the graph canvas matching image.png */
+.graph-bg-grid {
+  background-color: #f8fafc;
+  background-image: radial-gradient(circle, rgba(148, 163, 184, 0.5) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+}
+
+.dark .graph-bg-grid {
+  background-color: #0c0d12;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+}
+
+/* Vercel-style log typing / slide-in */
+@keyframes log-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.log-entry-enter {
+  animation: log-slide-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Shimmer animation for active scanning bar */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-progress {
+  background: linear-gradient(
+    90deg,
+    #7c3aed 0%,
+    #a78bfa 50%,
+    #7c3aed 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Heatmap pulse and vector glow */
+@keyframes heat-pulse {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.96);
+    opacity: 0.8;
+  }
+}
+
+.heat-pulse-active {
+  animation: heat-pulse 2.5s ease-in-out infinite;
 }
