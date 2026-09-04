@@ -11,16 +11,20 @@
   },
   "dependencies": {
     "axios": "^1.20.0",
+    "d3-geo": "^3.1.1",
     "framer-motion": "^13.1.1",
     "lucide-react": "^1.39.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-force-graph-2d": "^1.29.1"
+    "react-force-graph-2d": "^1.29.1",
+    "react-simple-maps": "^3.0.0"
   },
   "devDependencies": {
+    "@types/d3-geo": "^3.1.1",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "@types/react-simple-maps": "^3.0.6",
     "@vitejs/plugin-react": "^6.1.0",
     "oxlint": "^1.79.0",
     "typescript": "~6.0.2",
