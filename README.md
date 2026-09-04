@@ -1,4 +1,4 @@
-﻿# 🛡️ Mule Ring Sentinel
+# 🛡️ Mule Ring Sentinel
 ### Autonomous Agentic AI Platform for Financial Crime Detection & Syndicate Dismantlement
 
 ![Razorpay AI Buildathon 2026](https://img.shields.io/badge/Razorpay_AI_Buildathon_2026-Track_02_Risk_Manager-FF4444.svg?style=for-the-badge)
@@ -96,14 +96,14 @@ graph TB
 
 ## 🧩 Tech Stack Deep Dive
 
-### Layer 1 — Rust PyO3 Ingestion Core
+### <img src="https://img.shields.io/badge/Layer_1-Rust_PyO3_Core-000000.svg?logo=rust&style=flat-square" alt="Rust" align="center" />
 | Component | Technology | Purpose |
 |---|---|---|
 | Native Extension | `Rust + PyO3 0.20` | Zero-copy Python-Rust FFI boundary |
 | Serialization | `serde + serde_json` | Schema-validated transaction parsing |
 | Build Tool | `maturin` | Compiles Rust into a `.pyd` Python extension module |
 
-### Layer 2 — Python AI Agent
+### <img src="https://img.shields.io/badge/Layer_2-Python_AI_Agent-009688.svg?logo=python&style=flat-square" alt="Python" align="center" />
 | Component | Technology | Purpose |
 |---|---|---|
 | Agent LLM | `GPT-4o` via OpenAI SDK | Multi-step autonomous reasoning with tool calling |
@@ -112,7 +112,7 @@ graph TB
 | Data Validation | `Pydantic v2` | Strict schema enforcement on all Agent outputs |
 | Numeric | `NumPy + Pandas` | Centrality score computation |
 
-### Layer 3 — Backend Orchestration
+### <img src="https://img.shields.io/badge/Layer_3-Backend_Orchestration-009688.svg?logo=fastapi&style=flat-square" alt="FastAPI" align="center" />
 | Component | Technology | Purpose |
 |---|---|---|
 | Web Framework | `FastAPI` | Async REST + WebSocket endpoints |
@@ -120,7 +120,7 @@ graph TB
 | Real-time | `WebSockets` | Streams Agent thoughts/actions to UI live |
 | Evaluation | `scikit-learn` | Precision/Recall scoring against ground truth |
 
-### Layer 4 — React Frontend
+### <img src="https://img.shields.io/badge/Layer_4-React_Frontend-61DAFB.svg?logo=react&style=flat-square" alt="React" align="center" />
 | Component | Technology | Purpose |
 |---|---|---|
 | Framework | `React 18 + Vite` | Ultra-fast HMR dev server |
@@ -252,10 +252,10 @@ The frontend provides **4 premium, switchable views**:
 
 | View | Description |
 |---|---|
-| **Executive Bento** | Cards-based mission control for CISOs. Shows all 5 active threat syndicates with risk scores, volumes, mule counts and topology type. |
-| **India Geo-Heatmap** | SVG-rendered map of India with glowing cyber-crime hubs (Jamtara, Delhi NCR, BKC Mumbai) and animated threat corridor flow arcs. |
-| **Graph Topology** | Interactive ForceGraph2D with two modes: **Structured Layout** (geometric, perfectly locked constellation) and **Organic Layout** (D3-physics with a custom closed-box bounding force). |
-| **Dual Sync** | Side-by-side Geo-Heatmap + Graph Topology for geographic-to-network correlation. |
+| <img src="https://img.shields.io/badge/Executive-Bento_Dashboard-5b21b6.svg?style=flat-square" alt="Bento" /> | Cards-based mission control for CISOs. Shows all 5 active threat syndicates with risk scores, volumes, mule counts and topology type. |
+| <img src="https://img.shields.io/badge/India-Geo_Heatmap-dc2626.svg?style=flat-square" alt="Map" /> | SVG-rendered map of India with glowing cyber-crime hubs (Jamtara, Delhi NCR, BKC Mumbai) and animated threat corridor flow arcs. |
+| <img src="https://img.shields.io/badge/Graph-Topology-0ea5e9.svg?style=flat-square" alt="Graph" /> | Interactive ForceGraph2D with two modes: **Structured Layout** (geometric, perfectly locked constellation) and **Organic Layout** (D3-physics with a custom closed-box bounding force). |
+| <img src="https://img.shields.io/badge/Dual-Sync_View-10b981.svg?style=flat-square" alt="Sync" /> | Side-by-side Geo-Heatmap + Graph Topology for geographic-to-network correlation. |
 
 ---
 
