@@ -949,6 +949,20 @@ export function App() {
                       Scanning...
                     </button>
                   )}
+                  {(agentState === 'verdict' || agentState === 'frozen') && (
+                    <button
+                      onClick={handleFreezeRing}
+                      disabled={isCurrentThreatFrozen}
+                      className={`px-3 py-1 mr-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm ${
+                        isCurrentThreatFrozen
+                          ? 'bg-slate-200 dark:bg-white/10 text-slate-500 cursor-not-allowed'
+                          : 'bg-rose-600 hover:bg-rose-700 text-white'
+                      }`}
+                    >
+                      <Lock className="w-3.5 h-3.5" />
+                      {isCurrentThreatFrozen ? 'Ring Severed' : 'Sever & Freeze'}
+                    </button>
+                  )}
                   <button
                     onClick={() => setGraphLayout(graphLayout === 'geometric' ? 'organic' : 'geometric')}
                     className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
@@ -1076,6 +1090,20 @@ export function App() {
                     >
                       <RefreshCw className="w-3 h-3 animate-spin" />
                       Scanning
+                    </button>
+                  )}
+                  {(agentState === 'verdict' || agentState === 'frozen') && (
+                    <button
+                      onClick={handleFreezeRing}
+                      disabled={isCurrentThreatFrozen}
+                      className={`px-3 py-1 rounded-full text-[10px] font-bold transition-all flex items-center gap-1.5 shadow-sm ${
+                        isCurrentThreatFrozen
+                          ? 'bg-slate-200 dark:bg-white/10 text-slate-500 cursor-not-allowed'
+                          : 'bg-rose-600 hover:bg-rose-700 text-white'
+                      }`}
+                    >
+                      <Lock className="w-3 h-3" />
+                      {isCurrentThreatFrozen ? 'Severed' : 'Sever Ring'}
                     </button>
                   )}
                 </div>
