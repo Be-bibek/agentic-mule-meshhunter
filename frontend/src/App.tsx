@@ -502,17 +502,18 @@ export function App() {
   // Custom Physics Bounding Box for Organic Layout
   useEffect(() => {
     if (fgRef.current && graphLayout === 'organic') {
-      const BOUNDARY_SIZE = 400; // Define the absolute closed box limits
+      // Use gentle radial gravity instead of a hard box to pull everything into an organic circular mesh
+      fgRef.current.d3Force('box', null);
       
-      fgRef.current.d3Force('box', (function() {
+      fgRef.current.d3Force('radialGravity', (function() {
         let nodes: any[] = [];
-        function force() {
+        const strength = 0.04; // Gentle pull to center
+        function force(alpha: number) {
           if (!nodes) return;
           for (let i = 0; i < nodes.length; ++i) {
             const node = nodes[i];
-            // Clamp coordinates to force nodes into the closed box
-            node.x = Math.max(-BOUNDARY_SIZE, Math.min(BOUNDARY_SIZE, node.x));
-            node.y = Math.max(-BOUNDARY_SIZE, Math.min(BOUNDARY_SIZE, node.y));
+            node.vx -= node.x * strength * alpha;
+            node.vy -= node.y * strength * alpha;
           }
         }
         force.initialize = function(_nodes: any[]) {
@@ -523,12 +524,12 @@ export function App() {
       
       // Tweak organic gravity to keep it a bit more cohesive
       fgRef.current.d3Force('charge').strength(-45);
-      fgRef.current.d3Force('link').distance(35);
+      fgRef.current.d3Force('link').distance(40);
       
       // Reheat engine to apply boundaries immediately
       fgRef.current.d3ReheatSimulation();
     } else if (fgRef.current && graphLayout === 'geometric') {
-      fgRef.current.d3Force('box', null);
+      fgRef.current.d3Force('radialGravity', null);
     }
   }, [graphLayout]);
 
