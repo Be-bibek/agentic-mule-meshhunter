@@ -365,8 +365,11 @@ mule-ring-sentinel/
 
 ---
 
-## 👤 Author
-
-**Bibek** — Razorpay AI Buildathon 2026, Track 2: Risk Manager
-
-> Built to prove that AI can go beyond chatbots and actively dismantle financial crime at scale.
+<div align="center">
+  <br />
+  <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay Logo" width="250" />
+  <br /><br />
+  <h3>Proudly built for the <strong>Razorpay AI Buildathon 2026</strong></h3>
+  <p>Track 2: Risk Manager</p>
+  <br />
+</div>
