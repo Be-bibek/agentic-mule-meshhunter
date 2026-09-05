@@ -542,7 +542,7 @@ export const IndiaGeoHeatmap: React.FC<IndiaGeoHeatmapProps> = ({
                   />
 
                   {/* Transfer Amount Pill along the mid-curve */}
-                  {!compact && (
+                  {true && (
                     <g
                       transform={`translate(${
                         (arc.sourceCoords[0] + arc.targetCoords[0]) / 2
@@ -631,7 +631,7 @@ export const IndiaGeoHeatmap: React.FC<IndiaGeoHeatmapProps> = ({
                 />
 
                 {/* Node Label Pill (Clean, non-clashing) */}
-                {(isHovered || isInActive || isCritical) && !compact && (
+                {(isHovered || isInActive || isCritical) && (
                   <g transform="translate(0, 13)" className="pointer-events-none">
                     <rect
                       x={-spot.name.length * 3.2 - 8}
@@ -680,7 +680,7 @@ export const IndiaGeoHeatmap: React.FC<IndiaGeoHeatmapProps> = ({
       </div>
 
       {/* INSPECTOR POP-OVER DRAWER (Docked bottom-right or side, with close button so it never overlaps legend) */}
-      {(hoveredHotspot || hoveredState || selectedHotspot || selectedState) && !compact && (
+      {(hoveredHotspot || hoveredState || selectedHotspot || selectedState) && (
         <div className="absolute bottom-3 right-3 z-20 pointer-events-auto max-w-xs w-full">
           <div className="bg-white/95 dark:bg-[#16161d]/95 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-lg rounded-2xl p-3.5 transition-all animate-in fade-in slide-in-from-bottom-2 duration-150 relative">
             <button
