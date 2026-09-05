@@ -444,41 +444,48 @@ export function App() {
       setScanLogs(SCAN_STEPS_TEMPLATE);
       setScanProgress(100);
     } else {
-      setAgentState('idle');
-      setScanLogs([]);
       setScanProgress(0);
     }
   };
 
   // Run Agentic Scan
-  const handleRunScan = () => {
-    setAgentState('scanning');
-    setScanProgress(0);
-    setScanLogs([]);
-    const startTime = Date.now();
-
-    const progressInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(100, (elapsed / 4000) * 100);
-      setScanProgress(progress);
-      setScanElapsedSec((elapsed / 1000).toFixed(1));
-
-      SCAN_STEPS_TEMPLATE.forEach((step) => {
-        if (elapsed >= step.targetTimeMs) {
-          setScanLogs((prev) => {
-            if (!prev.some((p) => p.id === step.id)) {
-              return [...prev, step];
-            }
-            return prev;
-          });
-        }
+  const handleRunScan = async () => {
+    try {
+      setAgentState('scanning');
+      setScanProgress(0);
+      setScanLogs([]);
+      await fetch('http://127.0.0.1:8000/api/agent/investigate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ node_id: selectedThreatId })
       });
+      const startTime = Date.now();
+      const progressInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(100, (elapsed / 4000) * 100);
+        setScanProgress(progress);
+        setScanElapsedSec((elapsed / 1000).toFixed(1));
 
-      if (elapsed >= 4000) {
-        clearInterval(progressInterval);
-        setAgentState('verdict');
-      }
-    }, 75);
+        SCAN_STEPS_TEMPLATE.forEach((step) => {
+          if (elapsed >= step.targetTimeMs) {
+            setScanLogs((prev) => {
+              if (!prev.some((p) => p.id === step.id)) {
+                return [...prev, step];
+              }
+              return prev;
+            });
+          }
+        });
+
+        if (elapsed >= 4000) {
+          clearInterval(progressInterval);
+          setAgentState('verdict');
+        }
+      }, 75);
+    } catch (err) {
+      console.error('Scan trigger failed', err);
+      setAgentState('idle');
+    }
   };
 
   // Sever & Freeze Ring
@@ -925,6 +932,24 @@ export function App() {
                 </div>
 
                 <div className="flex items-center gap-2">
+                  {agentState === 'idle' && (
+                    <button
+                      onClick={handleRunScan}
+                      className="px-3 py-1 mr-2 rounded-full text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white transition-all flex items-center gap-1.5 shadow-sm"
+                    >
+                      <Zap className="w-3.5 h-3.5 text-lime-300" />
+                      Run Agentic Scan
+                    </button>
+                  )}
+                  {agentState === 'scanning' && (
+                    <button
+                      disabled
+                      className="px-3 py-1 mr-2 rounded-full text-xs font-bold bg-purple-800 text-purple-200 opacity-70 flex items-center gap-1.5"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      Scanning...
+                    </button>
+                  )}
                   <button
                     onClick={() => setGraphLayout(graphLayout === 'geometric' ? 'organic' : 'geometric')}
                     className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
@@ -1034,6 +1059,26 @@ export function App() {
                   <Layers className="w-4 h-4 text-rose-600" />
                   <span className="text-xs font-bold text-slate-900 dark:text-white">Graph Subgraph</span>
                   <span className="font-mono text-xs text-rose-700 dark:text-rose-400 font-semibold">[{currentThreat.id}]</span>
+                </div>
+                <div>
+                  {agentState === 'idle' && (
+                    <button
+                      onClick={handleRunScan}
+                      className="px-3 py-1 rounded-full text-[10px] font-bold bg-purple-600 hover:bg-purple-700 text-white transition-all flex items-center gap-1.5 shadow-sm"
+                    >
+                      <Zap className="w-3 h-3 text-lime-300" />
+                      Run Scan
+                    </button>
+                  )}
+                  {agentState === 'scanning' && (
+                    <button
+                      disabled
+                      className="px-3 py-1 rounded-full text-[10px] font-bold bg-purple-800 text-purple-200 opacity-70 flex items-center gap-1.5"
+                    >
+                      <RefreshCw className="w-3 h-3 animate-spin" />
+                      Scanning
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="flex-1 w-full relative graph-bg-grid">
