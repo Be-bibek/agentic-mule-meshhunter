@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="100%" height="500">
+  <defs>
+    <filter id="glowPink">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowCyan">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="gradBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#151b2d"/>
+    </linearGradient>
+    <linearGradient id="gradCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="500" fill="url(#gradBg)" rx="16"/>
+
+  <!-- Grid background -->
+  <g stroke="#334155" stroke-width="1" stroke-dasharray="2 4" stroke-opacity="0.5">
+    <!-- horizontal -->
+    <line x1="0" y1="100" x2="1000" y2="100" />
+    <line x1="0" y1="200" x2="1000" y2="200" />
+    <line x1="0" y1="300" x2="1000" y2="300" />
+    <line x1="0" y1="400" x2="1000" y2="400" />
+    <!-- vertical -->
+    <line x1="250" y1="0" x2="250" y2="500" />
+    <line x1="500" y1="0" x2="500" y2="500" />
+    <line x1="750" y1="0" x2="750" y2="500" />
+  </g>
+
+  <!-- Title -->
+  <text x="50" y="50" font-family="system-ui, sans-serif" font-size="24" font-weight="900" fill="#ffffff" letter-spacing="1.5">SYSTEM ARCHITECTURE</text>
+  <text x="50" y="70" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">Zero-latency data pipeline powering autonomous agentic reasoning.</text>
+
+  <!-- Connections -->
+  <g stroke="#3b82f6" stroke-width="2" stroke-dasharray="6 4" fill="none">
+    <path d="M 230 250 L 320 250" />
+    <path d="M 480 250 L 570 250" />
+    <path d="M 730 250 L 820 250" />
+  </g>
+  <g fill="#3b82f6">
+    <polygon points="310,245 320,250 310,255" />
+    <polygon points="560,245 570,250 560,255" />
+    <polygon points="810,245 820,250 810,255" />
+  </g>
+
+  <!-- Layer 1: Ingestion -->
+  <g transform="translate(50, 150)">
+    <rect x="0" y="0" width="180" height="200" rx="12" fill="url(#gradCard)" stroke="#ec4899" stroke-width="2" filter="url(#glowPink)"/>
+    <rect x="0" y="0" width="180" height="40" fill="#ec4899" fill-opacity="0.1" rx="12"/>
+    <text x="90" y="25" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="#ec4899" text-anchor="middle">1. RUST CORE</text>
+    
+    <rect x="20" y="60" width="140" height="30" rx="4" fill="#334155"/>
+    <text x="90" y="79" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">Raw Transaction JSON</text>
+    
+    <rect x="20" y="100" width="140" height="30" rx="4" fill="#334155"/>
+    <text x="90" y="119" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">PyO3 FFI Bridge</text>
+
+    <rect x="20" y="140" width="140" height="30" rx="4" fill="#334155"/>
+    <text x="90" y="159" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">Zero-Copy Deserialization</text>
+  </g>
+
+  <!-- Layer 2: Graph AI -->
+  <g transform="translate(320, 150)">
+    <rect x="0" y="0" width="160" height="200" rx="12" fill="url(#gradCard)" stroke="#a855f7" stroke-width="2"/>
+    <rect x="0" y="0" width="160" height="40" fill="#a855f7" fill-opacity="0.1" rx="12"/>
+    <text x="80" y="25" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="#a855f7" text-anchor="middle">2. AGENTIC GNN</text>
+
+    <rect x="20" y="60" width="120" height="30" rx="4" fill="#334155"/>
+    <text x="80" y="79" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">NetworkX Engine</text>
+
+    <rect x="20" y="100" width="120" height="30" rx="4" fill="#334155"/>
+    <text x="80" y="119" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">Louvain Modularity</text>
+
+    <rect x="20" y="140" width="120" height="30" rx="4" fill="#334155" stroke="#a855f7" stroke-width="1"/>
+    <text x="80" y="159" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">GPT-4o Tool Loop</text>
+  </g>
+
+  <!-- Layer 3: API & Orchestration -->
+  <g transform="translate(570, 150)">
+    <rect x="0" y="0" width="160" height="200" rx="12" fill="url(#gradCard)" stroke="#06b6d4" stroke-width="2" filter="url(#glowCyan)"/>
+    <rect x="0" y="0" width="160" height="40" fill="#06b6d4" fill-opacity="0.1" rx="12"/>
+    <text x="80" y="25" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="#06b6d4" text-anchor="middle">3. FASTAPI CORE</text>
+
+    <rect x="20" y="60" width="120" height="30" rx="4" fill="#334155"/>
+    <text x="80" y="79" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">Uvicorn ASGI</text>
+
+    <rect x="20" y="100" width="120" height="30" rx="4" fill="#334155"/>
+    <text x="80" y="119" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">Pydantic Validation</text>
+
+    <rect x="20" y="140" width="120" height="30" rx="4" fill="#334155"/>
+    <text x="80" y="159" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">WebSocket Pub/Sub</text>
+  </g>
+
+  <!-- Layer 4: React UI -->
+  <g transform="translate(820, 150)">
+    <rect x="0" y="0" width="140" height="200" rx="12" fill="url(#gradCard)" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="0" y="0" width="140" height="40" fill="#3b82f6" fill-opacity="0.1" rx="12"/>
+    <text x="70" y="25" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="#3b82f6" text-anchor="middle">4. CANVAS UI</text>
+
+    <rect x="15" y="60" width="110" height="30" rx="4" fill="#334155"/>
+    <text x="70" y="79" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">React 18 + Vite</text>
+
+    <rect x="15" y="100" width="110" height="30" rx="4" fill="#334155"/>
+    <text x="70" y="119" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">ForceGraph2D</text>
+
+    <rect x="15" y="140" width="110" height="30" rx="4" fill="#334155"/>
+    <text x="70" y="159" font-family="sans-serif" font-size="11" fill="#fff" text-anchor="middle">TailwindCSS V3</text>
+  </g>
+
+  <!-- Bottom Legend -->
+  <g transform="translate(50, 420)">
+    <circle cx="10" cy="10" r="5" fill="#ec4899"/>
+    <text x="25" y="14" font-family="sans-serif" font-size="11" fill="#94a3b8">Native Sub-millisecond Execution</text>
+    
+    <circle cx="230" cy="10" r="5" fill="#a855f7"/>
+    <text x="245" y="14" font-family="sans-serif" font-size="11" fill="#94a3b8">Heuristic + LLM Reasoning</text>
+
+    <circle cx="430" cy="10" r="5" fill="#06b6d4"/>
+    <text x="445" y="14" font-family="sans-serif" font-size="11" fill="#94a3b8">Streaming I/O Bound</text>
+  </g>
+
+</svg>

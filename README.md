@@ -9,9 +9,11 @@
 ![React](https://img.shields.io/badge/React-Vite_Canvas_UI-61DAFB.svg?logo=react&style=flat-square)
 ![GPT-4o](https://img.shields.io/badge/GPT--4o-LLM_Agent-74aa9c.svg?logo=openai&style=flat-square)
 
----
+![Mule Ring Sentinel Hero Banner](assets/hero-banner.svg)
 
 > **"Last year, India's banking ecosystem lost thousands of crores to Money Mule Networks. These aren't isolated fraudsters — they are sophisticated, geographically distributed financial syndicates. Mule Ring Sentinel was built to hunt them."**
+
+![Platform Statistics](assets/statistics.svg)
 
 ---
 
@@ -43,6 +45,8 @@ Organized Money Mule Syndicates exploit this directly:
 
 > Traditional ML cannot see the ring. It only sees individual transactions.
 
+![Problem vs Solution](assets/problem-solution.svg)
+
 ---
 
 ## 🤖 The Solution: Agentic GraphRAG
@@ -56,6 +60,8 @@ Organized Money Mule Syndicates exploit this directly:
 ---
 
 ## 🏗️ System Architecture
+
+![Detailed System Architecture](assets/detailed-architecture.svg)
 
 ```mermaid
 graph TB
