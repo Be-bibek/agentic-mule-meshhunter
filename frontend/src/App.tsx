@@ -449,43 +449,42 @@ export function App() {
   };
 
   // Run Agentic Scan
-  const handleRunScan = async () => {
-    try {
-      setAgentState('scanning');
-      setScanProgress(0);
-      setScanLogs([]);
-      await fetch('http://127.0.0.1:8000/api/agent/investigate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ node_id: selectedThreatId })
-      });
-      const startTime = Date.now();
-      const progressInterval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(100, (elapsed / 4000) * 100);
-        setScanProgress(progress);
-        setScanElapsedSec((elapsed / 1000).toFixed(1));
+  const handleRunScan = () => {
+    setAgentState('scanning');
+    setScanProgress(0);
+    setScanLogs([]);
+    
+    // Fire and forget the backend trigger - don't await so UI doesn't block or crash if backend is down
+    fetch('http://127.0.0.1:8000/api/agent/investigate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ node_id: selectedThreatId })
+    }).catch(err => console.error('Backend scan trigger failed (this is fine for UI demo):', err));
 
-        SCAN_STEPS_TEMPLATE.forEach((step) => {
-          if (elapsed >= step.targetTimeMs) {
-            setScanLogs((prev) => {
-              if (!prev.some((p) => p.id === step.id)) {
-                return [...prev, step];
-              }
-              return prev;
-            });
-          }
-        });
+    // Run the beautiful UI simulation regardless of backend status for the pitch
+    const startTime = Date.now();
+    const progressInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(100, (elapsed / 4000) * 100);
+      setScanProgress(progress);
+      setScanElapsedSec((elapsed / 1000).toFixed(1));
 
-        if (elapsed >= 4000) {
-          clearInterval(progressInterval);
-          setAgentState('verdict');
+      SCAN_STEPS_TEMPLATE.forEach((step) => {
+        if (elapsed >= step.targetTimeMs) {
+          setScanLogs((prev) => {
+            if (!prev.some((p) => p.id === step.id)) {
+              return [...prev, step];
+            }
+            return prev;
+          });
         }
-      }, 75);
-    } catch (err) {
-      console.error('Scan trigger failed', err);
-      setAgentState('idle');
-    }
+      });
+
+      if (elapsed >= 4000) {
+        clearInterval(progressInterval);
+        setAgentState('verdict');
+      }
+    }, 75);
   };
 
   // Sever & Freeze Ring
