@@ -595,7 +595,7 @@ export function App() {
       // Pill Text (Crimson Red)
       ctx.fillStyle = isFrozen
         ? (isDark ? '#94a3b8' : '#475569')
-        : (isDark ? '#fca5a5' : '#881337');
+        : (isDark ? '#fca5a5' : '#b91c1c');
       ctx.fillText(labelText, node.x, pillY);
       return;
     }
@@ -628,10 +628,7 @@ export function App() {
       ctx.beginPath();
       ctx.arc(node.x, node.y, r, 0, 2 * Math.PI, false);
       ctx.fillStyle = isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(239, 68, 68, 0.4)';
-      ctx.strokeStyle = isDark ? 'rgba(248, 113, 113, 0.8)' : 'rgba(220, 38, 38, 0.65)';
-      ctx.lineWidth = 1.0;
       ctx.fill();
-      ctx.stroke();
     }
     // 4. Unselected Threat Nodes (Light Pink circles as seen in original)
     else if (node.threatId && !isSelected) {
@@ -652,12 +649,7 @@ export function App() {
       ctx.fillStyle = isHovered
         ? (isDark ? 'rgba(203, 213, 225, 0.8)' : 'rgba(100, 116, 139, 0.6)')
         : (isDark ? 'rgba(148, 163, 184, 0.25)' : 'rgba(148, 163, 184, 0.35)');
-      ctx.strokeStyle = isHovered
-        ? (isDark ? '#ffffff' : '#475569')
-        : (isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(100, 116, 139, 0.65)');
-      ctx.lineWidth = 0.9;
       ctx.fill();
-      ctx.stroke();
     }
 
     // Floating Tooltip on Hover for non-seed nodes
