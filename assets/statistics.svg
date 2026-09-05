@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 150" width="100%" height="150">
+  <defs>
+    <filter id="glowGreen">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="150" fill="#0f172a" rx="16"/>
+
+  <g transform="translate(100, 75)">
+    <text x="0" y="-10" font-family="system-ui, sans-serif" font-size="36" font-weight="900" fill="#10b981" text-anchor="middle" filter="url(#glowGreen)">34 TPS</text>
+    <text x="0" y="15" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#cbd5e1" text-anchor="middle">INGESTION VELOCITY</text>
+    <text x="0" y="32" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Rust Zero-Copy Core</text>
+  </g>
+
+  <g transform="translate(300, 75)">
+    <text x="0" y="-10" font-family="system-ui, sans-serif" font-size="36" font-weight="900" fill="#8b5cf6" text-anchor="middle">99.4%</text>
+    <text x="0" y="15" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#cbd5e1" text-anchor="middle">VERDICT CONFIDENCE</text>
+    <text x="0" y="32" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Louvain Modularity AI</text>
+  </g>
+
+  <g transform="translate(500, 75)">
+    <text x="0" y="-10" font-family="system-ui, sans-serif" font-size="36" font-weight="900" fill="#ec4899" text-anchor="middle">&lt; 6s</text>
+    <text x="0" y="15" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#cbd5e1" text-anchor="middle">AUTONOMOUS SEVERING</text>
+    <text x="0" y="32" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Graph Traversal Time</text>
+  </g>
+
+  <g transform="translate(700, 75)">
+    <text x="0" y="-10" font-family="system-ui, sans-serif" font-size="36" font-weight="900" fill="#f59e0b" text-anchor="middle">₹14M+</text>
+    <text x="0" y="15" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#cbd5e1" text-anchor="middle">ESCROW INTERCEPTED</text>
+    <text x="0" y="32" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Simulated Volume</text>
+  </g>
+
+  <line x1="200" y1="40" x2="200" y2="110" stroke="#334155" stroke-width="1"/>
+  <line x1="400" y1="40" x2="400" y2="110" stroke="#334155" stroke-width="1"/>
+  <line x1="600" y1="40" x2="600" y2="110" stroke="#334155" stroke-width="1"/>
+
+</svg>

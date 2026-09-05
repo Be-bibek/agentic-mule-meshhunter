@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250" width="100%" height="250">
+  <defs>
+    <filter id="glowRed">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowPurple">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="250" fill="#0f172a" rx="16"/>
+  <line x1="400" y1="20" x2="400" y2="230" stroke="#334155" stroke-dasharray="6 4" stroke-width="2"/>
+
+  <!-- LEFT SIDE: Traditional -->
+  <text x="200" y="45" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#f87171" text-anchor="middle">TRADITIONAL RULE ENGINES</text>
+  <text x="200" y="65" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Isolated, Linear, Reactive</text>
+  
+  <g transform="translate(100, 100)">
+    <circle cx="20" cy="20" r="15" fill="#1e293b" stroke="#f87171" stroke-width="2" filter="url(#glowRed)"/>
+    <text x="20" y="25" font-family="sans-serif" font-size="12" fill="#fff" text-anchor="middle">Tx</text>
+    <line x1="40" y1="20" x2="80" y2="20" stroke="#475569" stroke-width="2"/>
+    <rect x="80" y="10" width="80" height="20" fill="#334155" rx="4"/>
+    <text x="120" y="24" font-family="sans-serif" font-size="10" fill="#f87171" text-anchor="middle">Rule Failed</text>
+
+    <circle cx="20" cy="70" r="15" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+    <line x1="40" y1="70" x2="80" y2="70" stroke="#475569" stroke-width="2"/>
+    <rect x="80" y="60" width="80" height="20" fill="#334155" rx="4"/>
+    <text x="120" y="74" font-family="sans-serif" font-size="10" fill="#4ade80" text-anchor="middle">Passed (Mule)</text>
+  </g>
+
+  <!-- RIGHT SIDE: Sentinel -->
+  <text x="600" y="45" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#a855f7" text-anchor="middle">MULE RING SENTINEL</text>
+  <text x="600" y="65" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Graph-based, Autonomous, Holistic</text>
+  
+  <g transform="translate(500, 100)" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.6">
+    <line x1="100" y1="50" x2="50" y2="20"/>
+    <line x1="100" y1="50" x2="150" y2="20"/>
+    <line x1="100" y1="50" x2="60" y2="90"/>
+    <line x1="100" y1="50" x2="140" y2="90"/>
+    <line x1="50" y1="20" x2="150" y2="20" stroke-dasharray="4 2"/>
+    <line x1="60" y1="90" x2="140" y2="90" stroke-dasharray="4 2"/>
+  </g>
+
+  <g transform="translate(500, 100)" fill="#1e293b" stroke="#a855f7" stroke-width="2" filter="url(#glowPurple)">
+    <circle cx="100" cy="50" r="12" fill="#ec4899" stroke="#fff"/>
+    <circle cx="50" cy="20" r="8"/>
+    <circle cx="150" cy="20" r="8"/>
+    <circle cx="60" cy="90" r="8"/>
+    <circle cx="140" cy="90" r="8"/>
+  </g>
+
+  <g transform="translate(500, 100)">
+    <path d="M 80 50 A 20 20 0 1 1 120 50 A 20 20 0 1 1 80 50" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 4" filter="url(#glowRed)"/>
+    <rect x="70" y="115" width="60" height="18" fill="#ef4444" rx="4"/>
+    <text x="100" y="127" font-family="sans-serif" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">RING SEVERED</text>
+  </g>
+
+</svg>

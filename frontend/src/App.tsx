@@ -164,7 +164,7 @@ const THREAT_SEEDS: ThreatAccount[] = [
 const SCAN_STEPS_TEMPLATE: ScanLogStep[] = [
   {
     id: 1,
-    timestamp: '00:00.420',
+    timestamp: '00:00.600',
     tag: 'NEO4J_TRAVERSAL',
     message: 'Traversing 3-hop graph neighborhood from seed node...',
     detail: 'Extracted subgraph: 14 interconnected wallets across 5 banking rails.',
@@ -172,36 +172,57 @@ const SCAN_STEPS_TEMPLATE: ScanLogStep[] = [
   },
   {
     id: 2,
-    timestamp: '00:01.350',
+    timestamp: '00:01.800',
     tag: 'VELOCITY_TELEMETRY',
     message: 'Computing temporal velocity vectors & dispersion rate...',
     detail: 'Detected burst delta: ₹42.8 Lakhs fan-out in 180s. Peak velocity: 34 TPS.',
-    targetTimeMs: 1500
+    targetTimeMs: 1800
   },
   {
     id: 3,
-    timestamp: '00:02.240',
+    timestamp: '00:03.200',
     tag: 'LOUVAIN_COMMUNITY',
     message: 'Detecting dense modularity community subgraphs...',
     detail: 'Modularity score Q = 0.782. High cohesion indicates synthetic coordination.',
-    targetTimeMs: 2400
-  },
-  {
-    id: 4,
-    timestamp: '00:03.180',
-    tag: 'GEO_CORRIDOR_SYNC',
-    message: 'Correlating with Indian cybercrime jurisdictional heatmaps...',
-    detail: 'Corridor established: Jamtara (Origin) → Delhi NCR (Layering) → BKC Mumbai (Hawala Sink).',
     targetTimeMs: 3200
   },
   {
+    id: 4,
+    timestamp: '00:04.500',
+    tag: 'GEO_CORRIDOR_SYNC',
+    message: 'Correlating with Indian cybercrime jurisdictional heatmaps...',
+    detail: 'Corridor established: Jamtara (Origin) → Delhi NCR (Layering) → BKC Mumbai (Hawala Sink).',
+    targetTimeMs: 4500
+  },
+  {
     id: 5,
-    timestamp: '00:03.950',
+    timestamp: '00:05.800',
     tag: 'SENTINEL_VERDICT',
     message: 'Agent Decision Engine confirms high-risk syndication pattern.',
     detail: 'Confidence: 99.4%. Recommended Action: Immediate autonomous escrow lock & freeze.',
-    targetTimeMs: 3900
+    targetTimeMs: 5800
   }
+];
+
+const RAW_LOG_POOL = [
+  "[SYSTEM] Initializing Sentinel Agent Reasoner v2.1.4...",
+  "[EXEC] Connecting to Neo4j graph cluster on 10.4.2.19:7687...",
+  "[OK] Graph cluster connected in 42ms.",
+  "[EXEC] Spawning 12 worker threads for BFS traversal...",
+  "[DEBUG] Thread-4: Discovered layer-1 mule ACC-8291. Hop count: 1.",
+  "[DEBUG] Thread-7: Discovered layer-1 mule ACC-4102. Hop count: 1.",
+  "[DEBUG] Thread-2: Discovered layer-1 mule ACC-9302. Hop count: 1.",
+  "[WARN] High velocity fan-out detected on ACC-8291. Initiating tracing...",
+  "[EXEC] Loading Louvain heuristic tensor models into VRAM...",
+  "[DEBUG] Iteration 1: Modularity Q = 0.412",
+  "[DEBUG] Iteration 2: Modularity Q = 0.655",
+  "[DEBUG] Iteration 3: Modularity Q = 0.782. Convergence reached.",
+  "[EXEC] Querying Redis geo-spatial corridor cache...",
+  "[WARN] IP match found: known proxy node in Jharkhand region.",
+  "[INFO] Cross-referencing mule demographics with UPI behavioral baseline...",
+  "[EXEC] Computing final confidence vector...",
+  "[OK] Confidence threshold exceeded (99.4%). Halting trace.",
+  "[OK] Agent Execution complete. Generating terminal verdict..."
 ];
 
 export function App() {
@@ -231,6 +252,8 @@ export function App() {
   const [scanProgress, setScanProgress] = useState(0);
   const [scanElapsedSec, setScanElapsedSec] = useState('0.0');
   const [scanLogs, setScanLogs] = useState<ScanLogStep[]>([]);
+  const [rawTerminalLogs, setRawTerminalLogs] = useState<string[]>([]);
+  const terminalScrollRef = useRef<HTMLDivElement>(null);
 
   // Force graph interaction states
   const fgRef = useRef<any>(null);
@@ -453,6 +476,7 @@ export function App() {
     setAgentState('scanning');
     setScanProgress(0);
     setScanLogs([]);
+    setRawTerminalLogs([]);
     
     // Fire and forget the backend trigger - don't await so UI doesn't block or crash if backend is down
     fetch('http://127.0.0.1:8000/api/agent/investigate', {
@@ -463,11 +487,27 @@ export function App() {
 
     // Run the beautiful UI simulation regardless of backend status for the pitch
     const startTime = Date.now();
+    let logIndex = 0;
+
     const progressInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const progress = Math.min(100, (elapsed / 4000) * 100);
+      const progress = Math.min(100, (elapsed / 6000) * 100);
       setScanProgress(progress);
       setScanElapsedSec((elapsed / 1000).toFixed(1));
+
+      // Push raw terminal logs dynamically
+      if (elapsed > (logIndex * (6000 / RAW_LOG_POOL.length)) && logIndex < RAW_LOG_POOL.length) {
+        setRawTerminalLogs(prev => {
+          const newLogs = [...prev, RAW_LOG_POOL[logIndex]];
+          logIndex++;
+          return newLogs;
+        });
+        
+        // Auto-scroll the terminal
+        if (terminalScrollRef.current) {
+          terminalScrollRef.current.scrollTop = terminalScrollRef.current.scrollHeight;
+        }
+      }
 
       SCAN_STEPS_TEMPLATE.forEach((step) => {
         if (elapsed >= step.targetTimeMs) {
@@ -480,11 +520,14 @@ export function App() {
         }
       });
 
-      if (elapsed >= 4000) {
+      if (elapsed >= 6000) {
         clearInterval(progressInterval);
         setAgentState('verdict');
+        if (terminalScrollRef.current) {
+          terminalScrollRef.current.scrollTop = terminalScrollRef.current.scrollHeight;
+        }
       }
-    }, 75);
+    }, 50);
   };
 
   // Sever & Freeze Ring
@@ -1169,68 +1212,131 @@ export function App() {
           </div>
         )}
 
-        {/* SLIDE-OVER INVESTIGATION DRAWER */}
-        {showConsoleDrawer && (
-          <div className="fixed inset-y-0 right-0 w-96 bg-white dark:bg-[#16161d] shadow-2xl border-l border-slate-200 dark:border-white/10 z-50 flex flex-col animate-in slide-in-from-right duration-200">
-            {/* Drawer Header */}
-            <div className="p-4 border-b border-slate-150 dark:border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Sentinel Reasoner Trace</h3>
-              </div>
-              <button
-                onClick={() => setShowConsoleDrawer(false)}
-                className="p-1 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Drawer Content */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
-              <div className="p-3 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-150 dark:border-white/10">
-                <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 mb-1">Target Ring</div>
-                <div className="font-mono font-bold text-slate-900 dark:text-white text-sm">{currentThreat.id} - {currentThreat.name}</div>
-                <div className="text-purple-700 dark:text-purple-400 font-semibold mt-1">Intercepted Escrow: {currentThreat.volume}</div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">Execution Telemetry</div>
-                {scanLogs.length === 0 ? (
-                  <div className="p-4 text-center text-slate-400 dark:text-slate-500 italic bg-slate-50 dark:bg-white/5 rounded-xl">
-                    No active trace log. Click "Run Agentic Scan" in the dashboard to execute.
+        {/* GLASSMORPHISM INVESTIGATION MODAL */}
+        {(agentState === 'scanning' || agentState === 'verdict' || showConsoleDrawer) && (
+          <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-20 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="w-full max-w-5xl bg-white/90 dark:bg-[#16161d]/90 backdrop-blur-xl shadow-2xl rounded-2xl border border-slate-200/50 dark:border-white/10 flex flex-col animate-in zoom-in-95 duration-300 overflow-hidden">
+              {/* Modal Header */}
+              <div className="p-5 border-b border-slate-200/50 dark:border-white/10 flex items-center justify-between bg-white/50 dark:bg-black/20">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Terminal className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                   </div>
-                ) : (
-                  scanLogs.map((log) => (
-                    <div key={log.id} className="p-2.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-150 dark:border-white/10 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-1.5 py-0.5 rounded">
-                          {log.tag}
-                        </span>
-                        <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500">{log.timestamp}</span>
-                      </div>
-                      <div className="font-semibold text-slate-800 dark:text-slate-200">{log.message}</div>
-                      {log.detail && <div className="text-slate-500 dark:text-slate-400 text-[11px]">{log.detail}</div>}
-                    </div>
-                  ))
-                )}
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white">Sentinel Reasoner Trace</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Autonomous Execution Log</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowConsoleDrawer(false);
+                    if (agentState === 'verdict') setAgentState('idle');
+                  }}
+                  className="p-2 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-white/10 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-            </div>
 
-            {/* Drawer Footer */}
-            <div className="p-4 border-t border-slate-150 dark:border-white/10">
-              <button
-                disabled={isCurrentThreatFrozen}
-                onClick={handleFreezeRing}
-                className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 ${
-                  isCurrentThreatFrozen
-                    ? 'bg-slate-200 dark:bg-white/10 text-slate-500 cursor-not-allowed'
-                    : 'bg-rose-600 hover:bg-rose-700 text-white'
-                }`}
-              >
-                <Lock className="w-4 h-4" />
-                <span>{isCurrentThreatFrozen ? 'Mule Ring Frozen' : 'Sever & Lock Gateway'}</span>
-              </button>
+              {/* Modal Content */}
+              <div className="p-5 max-h-[65vh] overflow-hidden flex flex-col">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full overflow-hidden">
+                  
+                  {/* Left Column: Formatted UI */}
+                  <div className="space-y-5 overflow-y-auto pr-2 pb-2">
+                    <div className="p-4 bg-white/60 dark:bg-white/5 rounded-xl border border-slate-200/50 dark:border-white/10 shadow-sm shrink-0">
+                      <div className="text-[11px] uppercase font-bold text-slate-400 dark:text-slate-500 mb-1.5 tracking-wider">Target Ring</div>
+                      <div className="font-mono font-bold text-slate-900 dark:text-white text-base">{currentThreat.id} - {currentThreat.name}</div>
+                      <div className="text-purple-700 dark:text-purple-400 font-bold mt-1.5 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+                        Intercepted Escrow: {currentThreat.volume}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="text-[11px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Execution Telemetry</div>
+                      {scanLogs.length === 0 ? (
+                        <div className="p-6 text-center text-slate-400 dark:text-slate-500 italic bg-slate-50/50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+                          No active trace log. Click "Run Agentic Scan" to execute.
+                        </div>
+                      ) : (
+                        <div className="space-y-3 relative before:absolute before:inset-y-0 before:left-[19px] before:w-px before:bg-slate-200 dark:before:bg-white/10">
+                          {scanLogs.map((log) => (
+                            <div key={log.id} className="relative pl-12 animate-in slide-in-from-left-4 fade-in duration-300">
+                              <div className="absolute left-3.5 top-1.5 w-3 h-3 rounded-full bg-purple-500 ring-4 ring-white dark:ring-[#16161d]" />
+                              <div className="p-3.5 rounded-xl bg-white/60 dark:bg-white/5 border border-slate-200/50 dark:border-white/10 shadow-sm space-y-1.5">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-mono text-[10px] font-bold text-purple-700 dark:text-purple-300 bg-purple-100/50 dark:bg-purple-900/30 px-2 py-0.5 rounded-md">
+                                    {log.tag}
+                                  </span>
+                                  <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500 font-medium">{log.timestamp}</span>
+                                </div>
+                                <div className="font-semibold text-slate-800 dark:text-slate-200 text-sm leading-snug">{log.message}</div>
+                                {log.detail && <div className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">{log.detail}</div>}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right Column: Raw Streaming Terminal */}
+                  <div className="bg-[#0a0a0a] rounded-xl shadow-inner border border-slate-800 flex flex-col overflow-hidden h-[50vh] lg:h-auto">
+                    <div className="h-9 bg-[#161616] border-b border-slate-800 px-3 flex items-center justify-between shrink-0">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                      </div>
+                      <div className="text-[10px] font-mono text-slate-500">root@sentinel-ai-engine</div>
+                    </div>
+                    <div 
+                      ref={terminalScrollRef}
+                      className="p-4 overflow-y-auto flex-1 font-mono text-[11px] sm:text-xs text-emerald-400/90 leading-relaxed space-y-1"
+                    >
+                      <div className="text-slate-500 mb-2"># Initiating autonomous reasoner trace...</div>
+                      {rawTerminalLogs.map((log, i) => (
+                        <div key={i} className="animate-in fade-in slide-in-from-bottom-1 duration-150">
+                          {log.startsWith('[WARN]') || log.startsWith('[ERROR]') ? (
+                            <span className="text-amber-400">{log}</span>
+                          ) : log.startsWith('[OK]') ? (
+                            <span className="text-emerald-300 font-bold">{log}</span>
+                          ) : log.startsWith('[DEBUG]') ? (
+                            <span className="text-slate-400">{log}</span>
+                          ) : (
+                            log
+                          )}
+                        </div>
+                      ))}
+                      {agentState === 'scanning' && (
+                        <div className="animate-pulse w-2 h-3.5 bg-emerald-400 inline-block align-middle ml-1 mt-1" />
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-5 border-t border-slate-200/50 dark:border-white/10 bg-slate-50/50 dark:bg-black/20">
+                <button
+                  disabled={isCurrentThreatFrozen}
+                  onClick={() => {
+                    handleFreezeRing();
+                    setShowConsoleDrawer(false);
+                    setAgentState('idle');
+                  }}
+                  className={`w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-sm ${
+                    isCurrentThreatFrozen
+                      ? 'bg-slate-200 dark:bg-white/10 text-slate-500 cursor-not-allowed'
+                      : 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/20 hover:shadow-rose-600/40 hover:-translate-y-0.5'
+                  }`}
+                >
+                  <Lock className="w-4 h-4" />
+                  <span>{isCurrentThreatFrozen ? 'Mule Ring Frozen' : 'Sever & Lock Gateway'}</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

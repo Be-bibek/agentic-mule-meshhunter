@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="100%" height="200">
+  <defs>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <filter id="glowDark">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="200" fill="#0f172a" rx="16"/>
+  
+  <!-- Connections -->
+  <path d="M 220 100 L 380 100" stroke="url(#lineGrad)" stroke-width="4" stroke-dasharray="8 4" fill="none" filter="url(#glowDark)"/>
+  <path d="M 420 100 L 580 100" stroke="url(#lineGrad)" stroke-width="4" stroke-dasharray="8 4" fill="none" filter="url(#glowDark)"/>
+  <polygon points="370,95 380,100 370,105" fill="#8b5cf6" />
+  <polygon points="570,95 580,100 570,105" fill="#3b82f6" />
+
+  <!-- Rust Node -->
+  <g transform="translate(60, 60)">
+    <rect x="0" y="0" width="160" height="80" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="2" filter="url(#glowDark)"/>
+    <text x="80" y="35" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#ffffff" text-anchor="middle">Rust Core</text>
+    <text x="80" y="55" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Ingestion (PyO3)</text>
+  </g>
+
+  <!-- Python Node -->
+  <g transform="translate(320, 60)">
+    <rect x="0" y="0" width="160" height="80" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" filter="url(#glowDark)"/>
+    <text x="80" y="35" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#ffffff" text-anchor="middle">Agentic AI</text>
+    <text x="80" y="55" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Python + Neo4j</text>
+  </g>
+
+  <!-- React Node -->
+  <g transform="translate(580, 60)">
+    <rect x="0" y="0" width="160" height="80" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" filter="url(#glowDark)"/>
+    <text x="80" y="35" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#ffffff" text-anchor="middle">React UI</text>
+    <text x="80" y="55" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Canvas Graph</text>
+  </g>
+</svg>
